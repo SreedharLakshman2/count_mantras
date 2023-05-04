@@ -15,6 +15,32 @@ class CounterView extends StatefulWidget {
 class CounterViewState extends State<CounterView> {
   int count = 0;
   int targetCount = 0;
+
+  void showDialogueForClearAction() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Alert'),
+        content: Text('Your record will we removed.'),
+        actions: [
+          ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Go Back')),
+          ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  Navigator.pop(context);
+                  count = 0;
+                });
+              },
+              child: const Text('Clear')),
+        ],
+      ),
+    );
+  }
+
   Widget build(context) {
     return MaterialApp(
       theme: ThemeData().copyWith(
@@ -85,9 +111,40 @@ class CounterViewState extends State<CounterView> {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          setState(() {
-                            count = 0;
-                          });
+                          //showDialogueForClearAction;
+                          print('efef');
+                          PopupMenuItem(
+                            child: Text("Show dialog"),
+                            onTap: () {
+                              Future<void>.delayed(
+                                const Duration(), // OR const Duration(milliseconds: 500),
+                                () => showDialog(
+                                  context: context,
+                                  barrierColor: Colors.black26,
+                                  builder: (context) => AlertDialog(
+                                    title: Text('Alert'),
+                                    content:
+                                        Text('Your record will we removed.'),
+                                    actions: [
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text('Go Back')),
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              Navigator.pop(context);
+                                              count = 0;
+                                            });
+                                          },
+                                          child: const Text('Clear')),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
