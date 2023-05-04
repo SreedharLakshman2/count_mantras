@@ -61,7 +61,7 @@ class CounterViewState extends State<CounterView> {
                           });
                         },
                         child: Text(count == 0 ? 'Tap' : '$count',
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 30.0, fontWeight: FontWeight.bold)),
                         style: ElevatedButton.styleFrom(
                           shape: const CircleBorder(),
