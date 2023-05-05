@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:vibration/vibration.dart';
 
@@ -10,6 +12,25 @@ class CounterViewWithTap extends StatefulWidget {
 
 class CounterViewWithTapState extends State<CounterViewWithTap> {
   int count = 0;
+  String targetCount = '';
+  late TextEditingController controler;
+
+  @override
+  void initState() {
+    super.initState();
+    controler = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    controler.dispose();
+    super.dispose();
+  }
+
+  void setTargetSubmit() {
+    Navigator.of(context).pop(controler.text);
+    controler.clear();
+  }
 
   void showResetAlert() {
 //Show error dialogue
@@ -23,7 +44,7 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
               onPressed: () {
                 Navigator.pop(cxt);
               },
-              child: Text('Go Back')),
+              child: const Text('Go Back')),
           TextButton(
               onPressed: () {
                 setState(() {
@@ -31,11 +52,36 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
                   Navigator.pop(cxt);
                 });
               },
-              child: Text('Reset'))
+              child: const Text('Reset'))
         ],
       ),
     );
   }
+
+  Future<String?> openDialogForSetTarget() => showDialog<String>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Set counter target'),
+          content: TextField(
+            decoration: const InputDecoration(
+                hintText: "Enter how many count you want to achieve"),
+            controller: controler,
+            keyboardType: const TextInputType.numberWithOptions(),
+          ),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Cancel')),
+            TextButton(
+                onPressed: () {
+                  setTargetSubmit();
+                },
+                child: const Text('Set Target'))
+          ],
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +106,9 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      Vibration.vibrate(duration: 200);
+                      if (await Vibration.hasVibrator() == true) {
+                        Vibration.vibrate(duration: 150);
+                      }
                       setState(() {
                         count = count + 1;
                         print(
@@ -107,16 +155,22 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
                     height: 50,
                   ),
                   ElevatedButton(
-                    onPressed: () {
-                      setState(() {});
+                    onPressed: () async {
+                      final count = await openDialogForSetTarget();
+                      //if (count == null || count.isEmpty) return;
+                      setState(() {
+                        targetCount = count!;
+                      });
                     },
                     style: ElevatedButton.styleFrom(
                         shape: ContinuousRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
                         padding: const EdgeInsets.all(10)),
-                    child: const Text(
-                      'Set Target',
+                    child: Text(
+                      targetCount == ''
+                          ? 'Set Target'
+                          : 'Target is $targetCount counts',
                       style:
                           TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                     ),
