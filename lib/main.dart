@@ -1,46 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import './counter_view.dart';
 
 void main() {
-  runApp(CounterView());
+  // we are only allowing portrait mode
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]).then((fn) {
+    runApp(CounterView());
+  });
 }
 
 class CounterView extends StatefulWidget {
+  CounterView({super.key});
   @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
+  State<CounterView> createState() {
     return CounterViewState();
   }
 }
 
 class CounterViewState extends State<CounterView> {
   int count = 0;
-  int targetCount = 0;
 
-  void showDialogueForClearAction() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Alert'),
-        content: Text('Your record will we removed.'),
-        actions: [
-          ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('Go Back')),
-          ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  Navigator.pop(context);
-                  count = 0;
-                });
-              },
-              child: const Text('Clear')),
-        ],
-      ),
-    );
-  }
-
+  @override
   Widget build(context) {
     return MaterialApp(
       theme: ThemeData().copyWith(
@@ -48,140 +31,30 @@ class CounterViewState extends State<CounterView> {
         //scaffoldBackgroundColor: Colors.cyanAccent,
         appBarTheme: AppBarTheme().copyWith(
             backgroundColor: Color.fromARGB(255, 166, 23, 174),
-            foregroundColor: Color.fromARGB(255, 241, 240, 241)),
+            foregroundColor: Color.fromARGB(255, 255, 255, 255)),
         cardTheme: CardTheme().copyWith(
             color: Color.fromARGB(255, 166, 23, 174),
             margin: const EdgeInsets.all(15)),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Color.fromARGB(255, 166, 23, 174),
-            foregroundColor: Color.fromARGB(255, 215, 208, 215),
+            backgroundColor: Color.fromARGB(255, 112, 2, 118),
+            foregroundColor: Color.fromARGB(255, 255, 255, 255),
           ),
         ),
+        scaffoldBackgroundColor: Color.fromARGB(255, 166, 23, 174),
       ),
       home: Scaffold(
-        body: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const SizedBox(
-                    width: null,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const SizedBox(
-                        width: null,
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            count = count + 1;
-                            print("You pressed Icon Elevated Button $count");
-                          });
-                        },
-                        child: Text(count == 0 ? 'Tap' : '$count',
-                            style: const TextStyle(
-                                fontSize: 30.0, fontWeight: FontWeight.bold)),
-                        style: ElevatedButton.styleFrom(
-                          shape: const CircleBorder(),
-                          padding: const EdgeInsets.all(30),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: null,
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(
-                    height: 100,
-                  ),
-
-                  //Clear button and Settarget Button
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          //showDialogueForClearAction;
-                          print('efef');
-                          PopupMenuItem(
-                            child: Text("Show dialog"),
-                            onTap: () {
-                              Future<void>.delayed(
-                                const Duration(), // OR const Duration(milliseconds: 500),
-                                () => showDialog(
-                                  context: context,
-                                  barrierColor: Colors.black26,
-                                  builder: (context) => AlertDialog(
-                                    title: Text('Alert'),
-                                    content:
-                                        Text('Your record will we removed.'),
-                                    actions: [
-                                      ElevatedButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text('Go Back')),
-                                      ElevatedButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              Navigator.pop(context);
-                                              count = 0;
-                                            });
-                                          },
-                                          child: const Text('Clear')),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                        ),
-                        child: const Text(
-                          'Clear',
-                          style: TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 100,
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          setState(() {});
-                        },
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                        ),
-                        child: const Text(
-                          'Set Target',
-                          style: TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Text('Count Mantras',
+                style: const TextStyle(
+                    fontSize: 30.0, fontWeight: FontWeight.bold)),
           ),
+          actions: [],
         ),
+        body: const CounterViewWithTap(),
       ),
     );
   }
