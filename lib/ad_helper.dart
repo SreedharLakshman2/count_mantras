@@ -13,7 +13,7 @@ class AdHelper {
 
   static String get interstitialAdUnitId {
     if (Platform.isAndroid) {
-      return 'ca-app-pub-9471606055191983/4540715277';
+      return '<YOUR_ANDROID_INTERSTITIAL_AD_UNIT_ID>';
     } else if (Platform.isIOS) {
       return '<YOUR_IOS_INTERSTITIAL_AD_UNIT_ID>';
     } else {

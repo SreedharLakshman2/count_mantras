@@ -19,7 +19,6 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
   late TextEditingController controler;
   // TODO: Add _bannerAd
   BannerAd? _bannerAd;
-  InterstitialAd? _interstitialAd;
 
   @override
   void initState() {
