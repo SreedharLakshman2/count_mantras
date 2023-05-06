@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:vibration/vibration.dart';
 import "package:flutter/services.dart";
+// TODO: Import ad_helper.dart
+import './ad_helper.dart';
+// TODO: Import google_mobile_ads.dart
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class CounterViewWithTap extends StatefulWidget {
   const CounterViewWithTap({super.key});
@@ -13,16 +17,39 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
   int count = 0;
   int targetCount = 0;
   late TextEditingController controler;
+  // TODO: Add _bannerAd
+  BannerAd? _bannerAd;
+  InterstitialAd? _interstitialAd;
 
   @override
   void initState() {
     super.initState();
     controler = TextEditingController();
+
+// TODO: Load a banner ad
+    BannerAd(
+      adUnitId: AdHelper.bannerAdUnitId,
+      request: AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(() {
+            _bannerAd = ad as BannerAd;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          print('Failed to load a banner ad: ${err.message}');
+          ad.dispose();
+        },
+      ),
+    ).load();
   }
 
   @override
   void dispose() {
     controler.dispose();
+    _bannerAd?.dispose();
+
     super.dispose();
   }
 
@@ -130,7 +157,7 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
                 ElevatedButton(
                   onPressed: showResetAlert,
                   style: ElevatedButton.styleFrom(
-                      shape: ContinuousRectangleBorder(
+                      shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
                       padding: const EdgeInsets.all(10)),
@@ -148,7 +175,7 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
                     });
                   },
                   style: ElevatedButton.styleFrom(
-                      shape: ContinuousRectangleBorder(
+                      shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
                       padding: const EdgeInsets.all(10)),
@@ -156,13 +183,24 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
                     targetCount == 0
                         ? 'Set count target'
                         : 'Count target is $targetCount',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
                     maxLines: 2,
                   ),
                 ),
               ],
             ),
-            Spacer(),
+            // TODO: Display a banner when ready
+            if (_bannerAd != null)
+              Align(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  width: _bannerAd!.size.width.toDouble(),
+                  height: _bannerAd!.size.height.toDouble(),
+                  child: AdWidget(ad: _bannerAd!),
+                ),
+              ),
+            const Spacer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -197,7 +235,7 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             const Text(

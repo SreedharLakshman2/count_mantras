@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import './counter_view.dart';
+// TODO: Import google_mobile_ads.dart
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 void main() {
   // we are only allowing portrait mode
@@ -22,6 +24,10 @@ class CounterView extends StatefulWidget {
 
 class CounterViewState extends State<CounterView> {
   int count = 0;
+  Future<InitializationStatus> _initGoogleMobileAds() {
+    // TODO: Initialize Google Mobile Ads SDK
+    return MobileAds.instance.initialize();
+  }
 
   @override
   Widget build(context) {
