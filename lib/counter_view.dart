@@ -220,11 +220,9 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
                     setState(() {
                       count = count + 1;
                       if (targetCount != 0 && targetCount == count) {
-                        Vibration.vibrate();
+                        Vibration.vibrate(duration: 3000);
                         setTargetReached();
                       }
-                      print(
-                          "You pressed Icon Elevated Button $widget.count times");
                     });
                   },
                   style: ElevatedButton.styleFrom(
