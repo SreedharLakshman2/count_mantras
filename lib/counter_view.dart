@@ -96,11 +96,14 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
             TextButton(
                 onPressed: () {
                   Navigator.pop(context);
+                  controler.clear();
                 },
                 child: const Text('Cancel')),
             TextButton(
                 onPressed: () {
-                  setTargetSubmit();
+                  if (controler.text.isNotEmpty) {
+                    setTargetSubmit();
+                  }
                 },
                 child: const Text('Set Target'))
           ],
@@ -124,6 +127,7 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
                 setState(() {
                   count = 0;
                   targetCount = 0;
+                  Vibration.cancel();
                   Navigator.pop(cxt);
                 });
               },
@@ -131,8 +135,9 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
           TextButton(
               onPressed: () {
                 setState(() {
-                  Navigator.pop(cxt);
                   targetCount = 0;
+                  Vibration.cancel();
+                  Navigator.pop(cxt);
                 });
               },
               child: const Text('Go Back & Continue')),
@@ -215,6 +220,7 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
                     setState(() {
                       count = count + 1;
                       if (targetCount != 0 && targetCount == count) {
+                        Vibration.vibrate();
                         setTargetReached();
                       }
                       print(

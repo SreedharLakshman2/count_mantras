@@ -2,7 +2,7 @@
     package="com.example.count_mantras">
     <uses-permission android:name="android.permission.VIBRATE"/>
    <application
-        android:label="count_mantras"
+        android:label="Count Mantras"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
