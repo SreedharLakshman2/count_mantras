@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.count_mantras">
+    package="com.sreedhar.count_mantras">
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
    <application
         android:label="Count Mantras"
         android:name="${applicationName}"

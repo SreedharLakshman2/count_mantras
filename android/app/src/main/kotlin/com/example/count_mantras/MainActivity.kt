@@ -1,4 +1,4 @@
-package com.example.count_mantras
+package com.sreedhar.count_mantras
 
 import io.flutter.embedding.android.FlutterActivity
 
