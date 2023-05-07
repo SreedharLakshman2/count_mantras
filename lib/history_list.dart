@@ -31,19 +31,36 @@ class HistoryState extends State<History> {
         actions: [
           Row(
             children: [
-              Text("Clear All"),
-              SizedBox(
-                width: 1,
-              ),
               IconButton(
                 onPressed: () {
-                  setState(() {
-                    final items = Boxes.getCounterInfo();
-                    items.deleteAll(Boxes.getCounterInfo().keys);
-                    //Hive.box('CounterInfo').close();
-                  });
+                  if (widget.countInfoList.length > 0) {
+                    showDialog(
+                      context: context,
+                      builder: (cxt) => AlertDialog(
+                        title: const Text('Delete data alert'),
+                        content: const Text(
+                            'Are you sure, You want to delete all  the count event data?'),
+                        actions: [
+                          TextButton(
+                              onPressed: () {
+                                Navigator.pop(cxt);
+                              },
+                              child: const Text('Cancel')),
+                          TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  final items = Boxes.getCounterInfo();
+                                  items.deleteAll(Boxes.getCounterInfo().keys);
+                                  Navigator.pop(cxt);
+                                });
+                              },
+                              child: const Text('Delete All'))
+                        ],
+                      ),
+                    );
+                  }
                 },
-                icon: Icon(Icons.delete_forever),
+                icon: Icon(Icons.delete_forever_rounded),
                 alignment: Alignment.centerLeft,
               ),
             ],
@@ -65,8 +82,28 @@ class HistoryState extends State<History> {
                     itemBuilder: (context, index) {
                       final item = widget.countInfoList[index];
 
-                      return HistoryItem(
-                        item: item,
+                      return Dismissible(
+                        // Specify the direction to swipe and delete
+                        direction: DismissDirection.endToStart,
+                        key: Key(item.title),
+                        onDismissed: (direction) {
+                          // Removes that item the list on swipwe
+                          setState(() {
+                            //items.removeAt(index);
+                            final items = Boxes.getCounterInfo();
+                            items.deleteAt(index);
+                          });
+                          // Shows the information on Snackbar
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text('Event deleted from list.')));
+                        },
+                        background: Container(
+                          color: Colors.red,
+                          padding: EdgeInsets.all(20),
+                        ),
+                        child: HistoryItem(
+                          item: item,
+                        ),
                       );
                     },
                   )

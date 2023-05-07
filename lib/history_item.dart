@@ -26,24 +26,25 @@ class HistoryItemState extends State<HistoryItem> {
             ),
             borderRadius: BorderRadius.all(Radius.circular(10))),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(
               height: 5,
             ),
             Text(
-              "Title: " + widget.item.title,
+              " Event Title: " + widget.item.title,
               style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
                   color: Colors.white),
+              maxLines: 4,
             ),
             SizedBox(
               height: 5,
             ),
             Text(
-              "Counts Achieved: " + widget.item.count.toString(),
+              " Counts Achieved: " + widget.item.count.toString(),
               style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
@@ -52,7 +53,7 @@ class HistoryItemState extends State<HistoryItem> {
             SizedBox(
               height: 5,
             ),
-            Text("Created Date: " + dateFormat.format(widget.item.createdDate),
+            Text(" Created Date: " + dateFormat.format(widget.item.createdDate),
                 style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,

@@ -88,6 +88,13 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
           ],
         ),
       );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Before reset,Tap counter button to add some data.'),
+          duration: const Duration(seconds: 3),
+        ),
+      );
     }
   }
 
@@ -168,9 +175,8 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
 
       final box = Boxes.getCounterInfo();
       box.add(counterInfo);
-      print(box.getAt(0)?.title);
       saveCountInfoTitlecontroler.clear();
-      // clearing Count and target
+      // clearing count, target and textfield data
       count = 0;
       targetCount = 0;
       Navigator.pop(context);
@@ -181,9 +187,9 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
   Future openDialogToSaveCounterInfo() => showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text('Save count data'),
+          title: const Text('Save event data'),
           content: TextField(
-            decoration: const InputDecoration(hintText: "Enter Title"),
+            decoration: const InputDecoration(hintText: "Enter event title"),
             controller: saveCountInfoTitlecontroler,
             keyboardType: TextInputType.text,
           ),
@@ -200,7 +206,7 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
                     saveCounterInfoWithTitle();
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: const Text('Add title before save it.'),
+                      content: const Text('Add event title before save it.'),
                       duration: const Duration(seconds: 3),
                       action: SnackBarAction(
                         label: '',
