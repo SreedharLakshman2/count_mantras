@@ -34,22 +34,22 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
     saveCountInfoTitlecontroler = TextEditingController();
 
 // TODO: Load a banner ad
-    // BannerAd(
-    //   adUnitId: AdHelper.bannerAdUnitId,
-    //   request: AdRequest(),
-    //   size: AdSize.banner,
-    //   listener: BannerAdListener(
-    //     onAdLoaded: (ad) {
-    //       setState(() {
-    //         _bannerAd = ad as BannerAd;
-    //       });
-    //     },
-    //     onAdFailedToLoad: (ad, err) {
-    //       print('Failed to load a banner ad: ${err.message}');
-    //       ad.dispose();
-    //     },
-    //   ),
-    // ).load();
+    BannerAd(
+      adUnitId: AdHelper.bannerAdUnitId,
+      request: AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(() {
+            _bannerAd = ad as BannerAd;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          print('Failed to load a banner ad: ${err.message}');
+          ad.dispose();
+        },
+      ),
+    ).load();
   }
 
   @override
