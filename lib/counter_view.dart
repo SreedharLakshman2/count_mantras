@@ -1,10 +1,15 @@
+import 'package:count_mantras/count_info_model.dart';
+import 'package:count_mantras/history_list.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:vibration/vibration.dart';
 import "package:flutter/services.dart";
-// TODO: Import ad_helper.dart
 import './ad_helper.dart';
-// TODO: Import google_mobile_ads.dart
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:hive/hive.dart';
+
+import 'boxes.dart';
 
 class CounterViewWithTap extends StatefulWidget {
   const CounterViewWithTap({super.key});
@@ -17,6 +22,8 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
   int count = 0;
   int targetCount = 0;
   late TextEditingController controler;
+  late TextEditingController saveCountInfoTitlecontroler;
+
   // TODO: Add _bannerAd
   BannerAd? _bannerAd;
 
@@ -24,30 +31,33 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
   void initState() {
     super.initState();
     controler = TextEditingController();
+    saveCountInfoTitlecontroler = TextEditingController();
 
 // TODO: Load a banner ad
-    BannerAd(
-      adUnitId: AdHelper.bannerAdUnitId,
-      request: AdRequest(),
-      size: AdSize.banner,
-      listener: BannerAdListener(
-        onAdLoaded: (ad) {
-          setState(() {
-            _bannerAd = ad as BannerAd;
-          });
-        },
-        onAdFailedToLoad: (ad, err) {
-          print('Failed to load a banner ad: ${err.message}');
-          ad.dispose();
-        },
-      ),
-    ).load();
+    // BannerAd(
+    //   adUnitId: AdHelper.bannerAdUnitId,
+    //   request: AdRequest(),
+    //   size: AdSize.banner,
+    //   listener: BannerAdListener(
+    //     onAdLoaded: (ad) {
+    //       setState(() {
+    //         _bannerAd = ad as BannerAd;
+    //       });
+    //     },
+    //     onAdFailedToLoad: (ad, err) {
+    //       print('Failed to load a banner ad: ${err.message}');
+    //       ad.dispose();
+    //     },
+    //   ),
+    // ).load();
   }
 
   @override
   void dispose() {
     controler.dispose();
+    saveCountInfoTitlecontroler.dispose();
     _bannerAd?.dispose();
+    Hive.box('CounterInfo').close();
 
     super.dispose();
   }
@@ -85,9 +95,9 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
   Future<String?> openDialogForSetTarget() => showDialog<String>(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text('Set counter target'),
+          title: const Text('Set Target'),
           content: TextField(
-            decoration: const InputDecoration(hintText: "Enter counts"),
+            decoration: const InputDecoration(hintText: "Enter target counts"),
             controller: controler,
             keyboardType: TextInputType.number,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -111,6 +121,8 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
       );
 
   void setTargetSubmit() {
+    //While setting target we have to reset count
+    count = 0;
     Navigator.of(context).pop(controler.text);
     controler.clear();
   }
@@ -133,18 +145,74 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
               },
               child: const Text('Reset & Go Back')),
           TextButton(
-              onPressed: () {
-                setState(() {
-                  targetCount = 0;
-                  Vibration.cancel();
-                  Navigator.pop(cxt);
-                });
+              onPressed: () async {
+                Navigator.pop(cxt);
+                if (count != 0) {
+                  openDialogToSaveCounterInfo();
+                }
               },
-              child: const Text('Go Back & Continue')),
+              child: const Text('Save')),
         ],
       ),
     );
   }
+
+  //Save Counter info
+  void saveCounterInfoWithTitle() {
+    setState(() {
+      print('Save begin');
+      final counterInfo = CounterInfo()
+        ..title = saveCountInfoTitlecontroler.text
+        ..createdDate = DateTime.now()
+        ..count = count;
+
+      final box = Boxes.getCounterInfo();
+      box.add(counterInfo);
+      print(box.getAt(0)?.title);
+      saveCountInfoTitlecontroler.clear();
+      // clearing Count and target
+      count = 0;
+      targetCount = 0;
+      Navigator.pop(context);
+    });
+  }
+
+  //openDialog to Save counter info
+  Future openDialogToSaveCounterInfo() => showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Save count data'),
+          content: TextField(
+            decoration: const InputDecoration(hintText: "Enter Title"),
+            controller: saveCountInfoTitlecontroler,
+            keyboardType: TextInputType.text,
+          ),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  saveCountInfoTitlecontroler.clear();
+                },
+                child: const Text('Cancel')),
+            TextButton(
+                onPressed: () {
+                  if (saveCountInfoTitlecontroler.text.isNotEmpty) {
+                    saveCounterInfoWithTitle();
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: const Text('Add title before save it.'),
+                      duration: const Duration(seconds: 3),
+                      action: SnackBarAction(
+                        label: '',
+                        onPressed: () {},
+                      ),
+                    ));
+                  }
+                },
+                child: const Text('Save'))
+          ],
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -158,39 +226,43 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                ElevatedButton(
+                ElevatedButton.icon(
                   onPressed: showResetAlert,
-                  style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      padding: const EdgeInsets.all(10)),
-                  child: const Text(
-                    'Reset',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
+                  icon: Icon(Icons.clear), //icon data for elevated button
+                  label: Text("Reset"), //label text
                 ),
-                ElevatedButton(
+                ElevatedButton.icon(
                   onPressed: () async {
-                    final count = await openDialogForSetTarget();
-                    if (count == null || count.isEmpty) return;
-                    setState(() {
-                      targetCount = int.parse(count);
-                    });
+                    if (count != 0) {
+                      openDialogToSaveCounterInfo();
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: const Text('Add some count before save it.'),
+                        duration: const Duration(seconds: 3),
+                        action: SnackBarAction(
+                          label: '',
+                          onPressed: () {},
+                        ),
+                      ));
+                    }
                   },
-                  style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
+                  icon:
+                      Icon(Icons.save_as_sharp), //icon data for elevated button
+                  label: Text("Save"), //label text
+                ),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      CupertinoPageRoute(
+                        fullscreenDialog: true,
+                        builder: (context) => History(
+                          countInfoList: [],
+                        ),
                       ),
-                      padding: const EdgeInsets.all(10)),
-                  child: Text(
-                    targetCount == 0
-                        ? 'Set count target'
-                        : 'Count target is $targetCount',
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
-                    maxLines: 2,
-                  ),
+                    );
+                  },
+                  icon: Icon(Icons.history), //icon data for elevated button
+                  label: Text("View History"), //label text
                 ),
               ],
             ),
@@ -247,6 +319,31 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
                   color: Colors.white),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                final count = await openDialogForSetTarget();
+                if (count == null || count.isEmpty) return;
+                setState(() {
+                  targetCount = int.parse(count);
+                });
+              },
+              style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  padding: const EdgeInsets.all(10)),
+              child: Text(
+                targetCount == 0
+                    ? 'Set count target'
+                    : 'Count target is $targetCount',
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                maxLines: 2,
+              ),
             ),
             const Spacer(),
           ],

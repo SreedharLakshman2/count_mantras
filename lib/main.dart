@@ -1,12 +1,23 @@
+import 'package:count_mantras/boxes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import './counter_view.dart';
 // TODO: Import google_mobile_ads.dart
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'count_info_model.dart';
+import './count_info_model.dart';
 
-void main() {
+Future main() async {
   // we are only allowing portrait mode
   WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  //Registering Hive
+  Hive.registerAdapter(CounterInfoAdapter());
+  //Opening hive
+  await Hive.openBox<CounterInfo>('CounterInfo');
+
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]).then((fn) {
@@ -24,11 +35,10 @@ class CounterView extends StatefulWidget {
 
 class CounterViewState extends State<CounterView> {
   int count = 0;
-  Future<InitializationStatus> _initGoogleMobileAds() {
-    // TODO: Initialize Google Mobile Ads SDK
-    return MobileAds.instance.initialize();
-  }
-
+  // Future<InitializationStatus> _initGoogleMobileAds() {
+  //   // TODO: Initialize Google Mobile Ads SDK
+  //   return MobileAds.instance.initialize();
+  // }
   @override
   Widget build(context) {
     return MaterialApp(
