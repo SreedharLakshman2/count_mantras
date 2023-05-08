@@ -5,7 +5,7 @@ class AdHelper {
     if (Platform.isAndroid) {
       return 'ca-app-pub-9471606055191983/7835842895';
     } else if (Platform.isIOS) {
-      return '<YOUR_IOS_BANNER_AD_UNIT_ID>';
+      return 'ca-app-pub-9471606055191983/6294534660';
     } else {
       throw UnsupportedError('Unsupported platform');
     }
