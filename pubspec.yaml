@@ -53,6 +53,7 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
+  remove_alpha_ios: true
   image_path: "dev_assets/tallycounter.png"
   adaptive_icon_background: "#191919"
   adaptive_icon_foreground: "dev_assets/tallycounter.png"
