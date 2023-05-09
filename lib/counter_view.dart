@@ -68,14 +68,26 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
       showDialog(
         context: context,
         builder: (cxt) => AlertDialog(
-          title: const Text('Reset Alert'),
-          content: const Text('Are you sure you want to reset the counter?'),
+          title: const Text('Reset Alert',
+              style: TextStyle(
+                  color: Color.fromARGB(255, 251, 51, 51),
+                  fontWeight: FontWeight.bold)),
+          backgroundColor: Color.fromARGB(255, 240, 125, 233),
+          content: const Text('Are you sure you want to reset the counter?',
+              style: TextStyle(
+                  color: Color.fromARGB(255, 254, 254, 254),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25)),
           actions: [
             TextButton(
                 onPressed: () {
                   Navigator.pop(cxt);
                 },
-                child: const Text('Go Back')),
+                child: const Text('Go Back',
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20))),
             TextButton(
                 onPressed: () {
                   setState(() {
@@ -84,15 +96,19 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
                     Navigator.pop(cxt);
                   });
                 },
-                child: const Text('Reset'))
+                child: const Text('Reset',
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 251, 51, 51),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20)))
           ],
         ),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Before reset,Tap counter button to add some data.'),
-          duration: const Duration(seconds: 3),
+          content: Text('Before reset,Tap counter button to add some count.'),
+          duration: const Duration(seconds: 2),
         ),
       );
     }
@@ -102,9 +118,17 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
   Future<String?> openDialogForSetTarget() => showDialog<String>(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text('Set Target'),
+          backgroundColor: Color.fromARGB(255, 240, 125, 233),
+          title: const Text(
+            'Set Target',
+            style: TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 30),
+            textAlign: TextAlign.center,
+          ),
           content: TextField(
-            decoration: const InputDecoration(hintText: "Enter target counts"),
+            decoration: const InputDecoration(
+                hintText: "Enter target counts",
+                icon: Icon(Icons.format_list_numbered)),
             controller: controler,
             keyboardType: TextInputType.number,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -115,14 +139,22 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
                   Navigator.pop(context);
                   controler.clear();
                 },
-                child: const Text('Cancel')),
+                child: const Text('Cancel',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20))),
             TextButton(
                 onPressed: () {
                   if (controler.text.isNotEmpty) {
                     setTargetSubmit();
                   }
                 },
-                child: const Text('Set Target'))
+                child: const Text('Set Target',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20)))
           ],
         ),
       );
@@ -138,8 +170,21 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
     showDialog(
       context: context,
       builder: (cxt) => AlertDialog(
-        title: const Text('Target reached alert'),
-        content: const Text('You have reached count target.'),
+        title: const Text(
+          'Target reached alert',
+          style: TextStyle(
+            color: Color.fromARGB(255, 251, 250, 250),
+            fontWeight: FontWeight.bold,
+            fontSize: 30,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        backgroundColor: Color.fromARGB(255, 23, 143, 37),
+        content: const Text('You have reached count target.',
+            style: TextStyle(
+                color: Color.fromARGB(255, 251, 250, 250),
+                fontWeight: FontWeight.bold,
+                fontSize: 25)),
         actions: [
           TextButton(
               onPressed: () {
@@ -150,7 +195,11 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
                   Navigator.pop(cxt);
                 });
               },
-              child: const Text('Reset & Go Back')),
+              child: const Text('Reset & Go Back',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20))),
           TextButton(
               onPressed: () async {
                 Navigator.pop(cxt);
@@ -158,7 +207,11 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
                   openDialogToSaveCounterInfo();
                 }
               },
-              child: const Text('Save')),
+              child: const Text('Save',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20))),
         ],
       ),
     );
@@ -187,9 +240,17 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
   Future openDialogToSaveCounterInfo() => showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text('Save event data'),
+          backgroundColor: Color.fromARGB(255, 240, 125, 233),
+          title: Text(
+            count == 0 ? 'Save event' : 'Save count event',
+            style: TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 25),
+            textAlign: TextAlign.center,
+          ),
           content: TextField(
-            decoration: const InputDecoration(hintText: "Enter event title"),
+            decoration: const InputDecoration(
+                hintText: "Enter event title",
+                icon: Icon(Icons.text_fields_rounded)),
             controller: saveCountInfoTitlecontroler,
             keyboardType: TextInputType.text,
           ),
@@ -199,7 +260,11 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
                   Navigator.pop(context);
                   saveCountInfoTitlecontroler.clear();
                 },
-                child: const Text('Cancel')),
+                child: const Text('Cancel',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20))),
             TextButton(
                 onPressed: () {
                   if (saveCountInfoTitlecontroler.text.isNotEmpty) {
@@ -215,7 +280,11 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
                     ));
                   }
                 },
-                child: const Text('Save'))
+                child: const Text('Save',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20)))
           ],
         ),
       );
@@ -239,22 +308,23 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
                 ),
                 ElevatedButton.icon(
                   onPressed: () async {
-                    if (count != 0) {
-                      openDialogToSaveCounterInfo();
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: const Text('Add some count before save it.'),
-                        duration: const Duration(seconds: 3),
-                        action: SnackBarAction(
-                          label: '',
-                          onPressed: () {},
-                        ),
-                      ));
-                    }
+                    //if (count != 0) {
+                    openDialogToSaveCounterInfo();
+                    // } else {
+                    //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    //     content: const Text('Add some count before save it.'),
+                    //     duration: const Duration(seconds: 3),
+                    //     action: SnackBarAction(
+                    //       label: '',
+                    //       onPressed: () {},
+                    //     ),
+                    //   ));
+                    // }
                   },
                   icon:
                       Icon(Icons.save_as_sharp), //icon data for elevated button
-                  label: Text("Save"), //label text
+                  label: Text(
+                      count > 0 ? 'Save Count' : 'Save Event'), //label text
                 ),
                 ElevatedButton.icon(
                   onPressed: () {

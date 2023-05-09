@@ -43,13 +43,14 @@ class HistoryItemState extends State<HistoryItem> {
             SizedBox(
               height: 5,
             ),
-            Text(
-              " Counts Achieved: " + widget.item.count.toString(),
-              style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
-            ),
+            if (widget.item.count.toString() != "0")
+              Text(
+                " Counts Achieved: " + widget.item.count.toString(),
+                style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              ),
             SizedBox(
               height: 5,
             ),

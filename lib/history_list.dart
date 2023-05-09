@@ -37,15 +37,30 @@ class HistoryState extends State<History> {
                     showDialog(
                       context: context,
                       builder: (cxt) => AlertDialog(
-                        title: const Text('Delete data alert'),
+                        backgroundColor: Color.fromARGB(255, 240, 125, 233),
+                        title: const Text(
+                          'Delete Alert',
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 251, 51, 51),
+                              fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center,
+                        ),
                         content: const Text(
-                            'Are you sure, You want to delete all  the count event data?'),
+                            'Are you sure, You want to delete all the event data?',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20)),
                         actions: [
                           TextButton(
                               onPressed: () {
                                 Navigator.pop(cxt);
                               },
-                              child: const Text('Cancel')),
+                              child: const Text('Cancel',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20))),
                           TextButton(
                               onPressed: () {
                                 setState(() {
@@ -54,7 +69,11 @@ class HistoryState extends State<History> {
                                   Navigator.pop(cxt);
                                 });
                               },
-                              child: const Text('Delete All'))
+                              child: const Text('Delete All',
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 251, 51, 51),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20)))
                         ],
                       ),
                     );

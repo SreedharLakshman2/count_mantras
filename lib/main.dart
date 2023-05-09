@@ -43,6 +43,7 @@ class CounterViewState extends State<CounterView> {
   @override
   Widget build(context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData().copyWith(
         useMaterial3: true,
         //scaffoldBackgroundColor: Colors.cyanAccent,
