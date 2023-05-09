@@ -20,9 +20,9 @@ class HistoryItemState extends State<HistoryItem> {
       padding: const EdgeInsets.all(10.0),
       child: Container(
         decoration: BoxDecoration(
-            color: Color.fromARGB(255, 120, 38, 117),
+            color: Color.fromARGB(255, 242, 162, 228),
             border: Border.all(
-              color: Color.fromARGB(255, 222, 10, 215),
+              color: Color.fromARGB(255, 11, 11, 11),
             ),
             borderRadius: BorderRadius.all(Radius.circular(10))),
         child: Column(
