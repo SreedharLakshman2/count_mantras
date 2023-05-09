@@ -72,14 +72,17 @@ class CounterViewState extends State<CounterView> {
       ),
       home: Scaffold(
         appBar: AppBar(
-          centerTitle: true,
+          //centerTitle: true,
           title: const Padding(
             padding: EdgeInsets.all(10.0),
-            child: Text('Count Mantras',
-                style: TextStyle(
-                    color: Color.fromARGB(255, 250, 224, 249),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 35)),
+            child: Text(
+              'Count Mantras',
+              style: TextStyle(
+                color: Color.fromARGB(255, 250, 224, 249),
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.start,
+            ),
           ),
           actions: [
             TextButton(
