@@ -66,6 +66,7 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
   void showResetAlert() {
     if (count > 0 || targetCount > 0) {
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (cxt) => AlertDialog(
           title: const Text('Reset Alert',
@@ -77,7 +78,7 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
               style: TextStyle(
                   color: Color.fromARGB(255, 254, 254, 254),
                   fontWeight: FontWeight.bold,
-                  fontSize: 25)),
+                  fontSize: 15)),
           actions: [
             TextButton(
                 onPressed: () {
@@ -87,7 +88,7 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
                     style: TextStyle(
                         color: Color.fromARGB(255, 255, 255, 255),
                         fontWeight: FontWeight.bold,
-                        fontSize: 20))),
+                        fontSize: 15))),
             TextButton(
                 onPressed: () {
                   setState(() {
@@ -100,7 +101,7 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
                     style: TextStyle(
                         color: Color.fromARGB(255, 251, 51, 51),
                         fontWeight: FontWeight.bold,
-                        fontSize: 20)))
+                        fontSize: 15)))
           ],
         ),
       );
@@ -116,13 +117,14 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
 
 //openDialogForSetTarget
   Future<String?> openDialogForSetTarget() => showDialog<String>(
+        barrierDismissible: false,
         context: context,
         builder: (context) => AlertDialog(
           backgroundColor: Color.fromARGB(255, 240, 125, 233),
           title: const Text(
             'Set Target',
             style: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 30),
+                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
             textAlign: TextAlign.center,
           ),
           content: TextField(
@@ -143,7 +145,7 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 20))),
+                        fontSize: 15))),
             TextButton(
                 onPressed: () {
                   if (controler.text.isNotEmpty) {
@@ -154,7 +156,7 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 20)))
+                        fontSize: 15)))
           ],
         ),
       );
@@ -168,6 +170,7 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
 
   void setTargetReached() {
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (cxt) => AlertDialog(
         title: const Text(
@@ -175,7 +178,7 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
           style: TextStyle(
             color: Color.fromARGB(255, 251, 250, 250),
             fontWeight: FontWeight.bold,
-            fontSize: 30,
+            fontSize: 20,
           ),
           textAlign: TextAlign.center,
         ),
@@ -184,7 +187,7 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
             style: TextStyle(
                 color: Color.fromARGB(255, 251, 250, 250),
                 fontWeight: FontWeight.bold,
-                fontSize: 25)),
+                fontSize: 15)),
         actions: [
           TextButton(
               onPressed: () {
@@ -199,7 +202,7 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
-                      fontSize: 20))),
+                      fontSize: 15))),
           TextButton(
               onPressed: () async {
                 Navigator.pop(cxt);
@@ -211,7 +214,7 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
-                      fontSize: 20))),
+                      fontSize: 15))),
         ],
       ),
     );
@@ -238,13 +241,14 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
 
   //openDialog to Save counter info
   Future openDialogToSaveCounterInfo() => showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (context) => AlertDialog(
           backgroundColor: Color.fromARGB(255, 240, 125, 233),
           title: Text(
             count == 0 ? 'Save event' : 'Save count event',
             style: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 25),
+                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
             textAlign: TextAlign.center,
           ),
           content: TextField(
@@ -264,7 +268,7 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 20))),
+                        fontSize: 15))),
             TextButton(
                 onPressed: () {
                   if (saveCountInfoTitlecontroler.text.isNotEmpty) {
@@ -284,7 +288,7 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 20)))
+                        fontSize: 15)))
           ],
         ),
       );
@@ -293,38 +297,32 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
   Widget build(BuildContext context) {
     return Container(
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(5.0),
         child: Column(
           children: [
             //Clear button and Settarget Button
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 ElevatedButton.icon(
                   onPressed: showResetAlert,
                   icon: Icon(Icons.clear), //icon data for elevated button
-                  label: Text("Reset"), //label text
+                  label: Text(
+                    "Reset",
+                    style: TextStyle(fontSize: 10),
+                  ), //label text
                 ),
                 ElevatedButton.icon(
                   onPressed: () async {
-                    //if (count != 0) {
                     openDialogToSaveCounterInfo();
-                    // } else {
-                    //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    //     content: const Text('Add some count before save it.'),
-                    //     duration: const Duration(seconds: 3),
-                    //     action: SnackBarAction(
-                    //       label: '',
-                    //       onPressed: () {},
-                    //     ),
-                    //   ));
-                    // }
                   },
                   icon:
                       Icon(Icons.save_as_sharp), //icon data for elevated button
                   label: Text(
-                      count > 0 ? 'Save Count' : 'Save Event'), //label text
+                    count > 0 ? 'Save Count' : 'Save Event',
+                    style: TextStyle(fontSize: 10),
+                  ), //label text
                 ),
                 ElevatedButton.icon(
                   onPressed: () {
@@ -338,7 +336,10 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
                     );
                   },
                   icon: Icon(Icons.history), //icon data for elevated button
-                  label: Text("View History"), //label text
+                  label: Text(
+                    "View History",
+                    style: TextStyle(fontSize: 10),
+                  ), //label text
                 ),
               ],
             ),
@@ -397,7 +398,7 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
                   color: Colors.white),
             ),
             const SizedBox(
-              height: 20,
+              height: 15,
             ),
             ElevatedButton(
               onPressed: () async {

@@ -74,14 +74,15 @@ class CounterViewState extends State<CounterView> {
         appBar: AppBar(
           //centerTitle: true,
           title: const Padding(
-            padding: EdgeInsets.all(10.0),
+            padding: EdgeInsets.all(5.0),
             child: Text(
               'Count Mantras',
               style: TextStyle(
                 color: Color.fromARGB(255, 250, 224, 249),
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.normal,
               ),
               textAlign: TextAlign.start,
+              maxLines: 2,
             ),
           ),
           actions: [
@@ -102,7 +103,7 @@ class CounterViewState extends State<CounterView> {
                 Text(
                   'Change Color',
                   style: TextStyle(
-                      fontSize: 15,
+                      fontSize: 12,
                       fontWeight: FontWeight.bold,
                       color: Color.fromARGB(255, 255, 255, 255)),
                 ),
