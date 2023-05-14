@@ -42,15 +42,15 @@ class HistoryState extends State<History> {
                           'Delete Alert',
                           style: TextStyle(
                               color: Color.fromARGB(255, 251, 51, 51),
-                              fontWeight: FontWeight.bold),
+                              fontWeight: FontWeight.normal),
                           textAlign: TextAlign.center,
                         ),
                         content: const Text(
-                            'Are you sure, You want to delete all the event data?',
+                            'You can delete each event by swipe towards left.\n \n Are you sure, You want to delete all the event data?',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 20)),
+                                fontSize: 15)),
                         actions: [
                           TextButton(
                               onPressed: () {
@@ -60,7 +60,7 @@ class HistoryState extends State<History> {
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 20))),
+                                      fontSize: 15))),
                           TextButton(
                               onPressed: () {
                                 setState(() {
@@ -73,7 +73,7 @@ class HistoryState extends State<History> {
                                   style: TextStyle(
                                       color: Color.fromARGB(255, 251, 51, 51),
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 20)))
+                                      fontSize: 15)))
                         ],
                       ),
                     );
