@@ -1,3 +1,5 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:count_mantras/audio_recorder.dart';
 import 'package:count_mantras/count_info_model.dart';
 import 'package:count_mantras/history_list.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,15 +12,17 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hive/hive.dart';
 
 import 'boxes.dart';
+import 'package:flutter_sound/flutter_sound.dart';
+import 'dart:async';
 
 class CounterViewWithTap extends StatefulWidget {
   const CounterViewWithTap({super.key});
 
   @override
-  State<CounterViewWithTap> createState() => CounterViewWithTapState();
+  State<CounterViewWithTap> createState() => _CounterViewWithTapState();
 }
 
-class CounterViewWithTapState extends State<CounterViewWithTap> {
+class _CounterViewWithTapState extends State<CounterViewWithTap> {
   int count = 0;
   int targetCount = 0;
   late TextEditingController controler;
@@ -32,8 +36,7 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
     super.initState();
     controler = TextEditingController();
     saveCountInfoTitlecontroler = TextEditingController();
-
-// TODO: Load a banner ad
+    // TODO: Load a banner ad
     BannerAd(
       adUnitId: AdHelper.bannerAdUnitId,
       request: AdRequest(),
@@ -400,32 +403,58 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
             const SizedBox(
               height: 15,
             ),
-            ElevatedButton(
-              onPressed: () async {
-                final count = await openDialogForSetTarget();
-                if (count == null || count.isEmpty) return;
-                setState(() {
-                  targetCount = int.parse(count);
-                });
-              },
-              style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () async {
+                    final count = await openDialogForSetTarget();
+                    if (count == null || count.isEmpty) return;
+                    setState(() {
+                      targetCount = int.parse(count);
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      padding: const EdgeInsets.all(10)),
+                  child: Text(
+                    targetCount == 0
+                        ? 'Set count target'
+                        : 'Count target is $targetCount',
+                    style: const TextStyle(
+                        fontSize: 15, fontWeight: FontWeight.bold),
+                    maxLines: 2,
                   ),
-                  padding: const EdgeInsets.all(10)),
-              child: Text(
-                targetCount == 0
-                    ? 'Set count target'
-                    : 'Count target is $targetCount',
-                style:
-                    const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                maxLines: 2,
-              ),
+                ),
+              ],
             ),
+            //Audio recording button Action
+            AudioRecorder(),
             const Spacer(),
           ],
         ),
       ),
+    );
+  }
+
+  ElevatedButton buildElevatedButton(IconData icon, Function f) {
+    return ElevatedButton.icon(
+      onPressed: f(),
+      icon: Icon(
+        icon,
+        size: 30,
+        color: Colors.white,
+      ), //icon data for elevated button
+      label: Text(
+        "Audio recorder",
+        style: TextStyle(
+          fontSize: 15,
+          fontWeight: FontWeight.bold,
+        ),
+        maxLines: 1,
+      ), //label text
     );
   }
 }
