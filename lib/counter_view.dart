@@ -1,5 +1,3 @@
-import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:count_mantras/audio_recorder.dart';
 import 'package:count_mantras/count_info_model.dart';
 import 'package:count_mantras/history_list.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,7 +10,6 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hive/hive.dart';
 
 import 'boxes.dart';
-import 'package:flutter_sound/flutter_sound.dart';
 import 'dart:async';
 
 class CounterViewWithTap extends StatefulWidget {
@@ -431,7 +428,6 @@ class _CounterViewWithTapState extends State<CounterViewWithTap> {
               ],
             ),
             //Audio recording button Action
-            AudioRecorder(),
             const Spacer(),
           ],
         ),
