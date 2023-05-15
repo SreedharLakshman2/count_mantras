@@ -79,7 +79,8 @@ class CounterViewState extends State<CounterView> {
               'Count Mantras',
               style: TextStyle(
                 color: Color.fromARGB(255, 250, 224, 249),
-                fontWeight: FontWeight.normal,
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
               ),
               textAlign: TextAlign.start,
               maxLines: 2,

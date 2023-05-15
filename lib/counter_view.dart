@@ -246,14 +246,14 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
         builder: (context) => AlertDialog(
           backgroundColor: Color.fromARGB(255, 240, 125, 233),
           title: Text(
-            count == 0 ? 'Save event' : 'Save count event',
+            count == 0 ? 'Save Todo' : 'Save Event',
             style: TextStyle(
                 color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
             textAlign: TextAlign.center,
           ),
           content: TextField(
             decoration: const InputDecoration(
-                hintText: "Enter event title",
+                hintText: "Enter todo/event title",
                 icon: Icon(Icons.text_fields_rounded)),
             controller: saveCountInfoTitlecontroler,
             keyboardType: TextInputType.text,
@@ -320,7 +320,7 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
                   icon:
                       Icon(Icons.save_as_sharp), //icon data for elevated button
                   label: Text(
-                    count > 0 ? 'Save Count' : 'Save Event',
+                    count > 0 ? 'Save Event' : 'Save ToDo',
                     style: TextStyle(fontSize: 10),
                   ), //label text
                 ),
@@ -418,7 +418,7 @@ class CounterViewWithTapState extends State<CounterViewWithTap> {
                     ? 'Set count target'
                     : 'Count target is $targetCount',
                 style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                 maxLines: 2,
               ),
             ),

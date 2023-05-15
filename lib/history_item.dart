@@ -22,7 +22,7 @@ class HistoryItemState extends State<HistoryItem> {
         decoration: BoxDecoration(
             color: Color.fromARGB(255, 242, 162, 228),
             border: Border.all(
-              color: Color.fromARGB(255, 11, 11, 11),
+              color: Color.fromARGB(255, 242, 6, 222),
             ),
             borderRadius: BorderRadius.all(Radius.circular(10))),
         child: Column(
@@ -32,33 +32,65 @@ class HistoryItemState extends State<HistoryItem> {
             SizedBox(
               height: 5,
             ),
-            Text(
-              " Event Title: " + widget.item.title,
-              style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
-              maxLines: 4,
+            Row(
+              children: [
+                Icon(
+                  Icons.event_note_rounded,
+                  color: Colors.white,
+                  size: 20,
+                ),
+                Text(
+                  (widget.item.count.toString() != "0"
+                          ? " Event Title: "
+                          : " ToDo: ") +
+                      widget.item.title,
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                  maxLines: 4,
+                ),
+              ],
             ),
             SizedBox(
               height: 5,
             ),
             if (widget.item.count.toString() != "0")
-              Text(
-                " Counts Achieved: " + widget.item.count.toString(),
-                style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
+              Row(
+                children: [
+                  Icon(
+                    Icons.format_list_numbered_rounded,
+                    color: Colors.white,
+                    size: 20,
+                  ),
+                  Text(
+                    " Counts Achieved: " + widget.item.count.toString(),
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
+                ],
               ),
             SizedBox(
               height: 5,
             ),
-            Text(" Created Date: " + dateFormat.format(widget.item.createdDate),
-                style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white)),
+            Row(
+              children: [
+                Icon(
+                  Icons.calendar_month,
+                  color: Colors.white,
+                  size: 20,
+                ),
+                Text(
+                    " Created Date: " +
+                        dateFormat.format(widget.item.createdDate),
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white)),
+              ],
+            ),
             SizedBox(
               height: 5,
             ),
