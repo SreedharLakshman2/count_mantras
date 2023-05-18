@@ -10,6 +10,8 @@ import 'count_info_model.dart';
 import './count_info_model.dart';
 import "dart:math";
 
+import 'main_drawer.dart';
+
 Future main() async {
   // we are only allowing portrait mode
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,9 +41,9 @@ class CounterViewState extends State<CounterView> {
   List<Color> backgroundColorColorList = [
     Color.fromARGB(255, 166, 23, 174),
     Color.fromARGB(255, 174, 58, 23),
-    Color.fromARGB(255, 255, 255, 255),
     Color.fromARGB(255, 79, 66, 195),
-    Color.fromARGB(255, 7, 6, 6)
+    Color.fromARGB(255, 7, 6, 6),
+    Color.fromARGB(255, 110, 109, 109),
   ];
 
   Future<InitializationStatus> _initGoogleMobileAds() {
@@ -75,15 +77,17 @@ class CounterViewState extends State<CounterView> {
           //centerTitle: true,
           title: const Padding(
             padding: EdgeInsets.all(5.0),
-            child: Text(
-              'Count Mantras',
-              style: TextStyle(
-                color: Color.fromARGB(255, 250, 224, 249),
-                fontWeight: FontWeight.bold,
-                fontSize: 15,
+            child: Center(
+              child: Text(
+                'Count Mantras',
+                style: TextStyle(
+                  color: Color.fromARGB(255, 255, 255, 255),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                ),
+                textAlign: TextAlign.center,
+                maxLines: 2,
               ),
-              textAlign: TextAlign.start,
-              maxLines: 2,
             ),
           ),
           actions: [
@@ -91,7 +95,6 @@ class CounterViewState extends State<CounterView> {
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(),
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                backgroundColor: Color.fromARGB(255, 101, 33, 104),
               ),
               onPressed: () {
                 setState(() {
@@ -101,13 +104,6 @@ class CounterViewState extends State<CounterView> {
                 });
               },
               child: Row(children: [
-                Text(
-                  'Change Color',
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 255, 255, 255)),
-                ),
                 Icon(
                   Icons.color_lens,
                   color: Color.fromARGB(255, 255, 255, 255),
@@ -118,6 +114,9 @@ class CounterViewState extends State<CounterView> {
               width: 15,
             )
           ],
+        ),
+        drawer: MainDrawer(
+          backgroundColor: backgroundColor,
         ),
         body: const CounterViewWithTap(),
       ),
