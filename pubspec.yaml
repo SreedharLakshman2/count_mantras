@@ -85,6 +85,8 @@ flutter:
   assets:
     - assets/tallyCounter.png
     - assets/coin.png
+    - assets/head.png
+    - assets/tail.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

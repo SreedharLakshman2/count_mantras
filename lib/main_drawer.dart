@@ -1,3 +1,5 @@
+import 'package:count_mantras/flip_coin.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:store_redirect/store_redirect.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -63,13 +65,20 @@ class MainDrawer extends StatelessWidget {
             ),
             iconColor: Colors.white,
             title: const Text(
-              'Coin Flip',
+              'Flip a coin',
               style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: Colors.white),
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(
+                CupertinoPageRoute(
+                  fullscreenDialog: true,
+                  builder: (context) => FlipCoin(),
+                ),
+              );
+            },
           ),
 
           //Privacy policy
