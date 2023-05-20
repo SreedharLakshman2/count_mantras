@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import "dart:math";
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import './ad_helper.dart';
 
 class FlipCoin extends StatefulWidget {
   const FlipCoin({super.key});
@@ -18,13 +20,39 @@ class FlipCoinState extends State<FlipCoin> with TickerProviderStateMixin {
     curve: Curves.elasticOut,
   );
 
-  final choiceArray = ["heads", "tails", "heads", "tails", "tails", "heads"];
+  final choiceArray = ["heads", "tails", "heads", "tails", "heads", "tails"];
   bool showAnimate = false;
   String flipResult = 'heads';
+
+  // TODO: Add _bannerAd
+  BannerAd? _bannerAd;
+
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // TODO: Load a banner ad
+    BannerAd(
+      adUnitId: AdHelper.bannerAdUnitId,
+      request: AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(() {
+            _bannerAd = ad as BannerAd;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          print('Failed to load a banner ad: ${err.message}');
+          ad.dispose();
+        },
+      ),
+    ).load();
   }
 
   @override
@@ -46,6 +74,15 @@ class FlipCoinState extends State<FlipCoin> with TickerProviderStateMixin {
       body: Center(
         child: Column(
           children: [
+            if (_bannerAd != null)
+              Align(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  width: _bannerAd!.size.width.toDouble(),
+                  height: _bannerAd!.size.height.toDouble(),
+                  child: AdWidget(ad: _bannerAd!),
+                ),
+              ),
             Spacer(),
             showAnimate
                 ? RotationTransition(
@@ -107,7 +144,8 @@ class FlipCoinState extends State<FlipCoin> with TickerProviderStateMixin {
                     ), //label text
                   )
                 : Spacer(),
-            Spacer(),
+            const Spacer(),
+            // TODO: Display a banner when ready
           ],
         ),
       ),
