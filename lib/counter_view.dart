@@ -364,7 +364,7 @@ class _CounterViewWithTapState extends State<CounterViewWithTap> {
                 ElevatedButton(
                   onPressed: () async {
                     if (await Vibration.hasVibrator() == true) {
-                      Vibration.vibrate(duration: 150);
+                      Vibration.vibrate(duration: 100);
                     }
                     setState(() {
                       count = count + 1;
