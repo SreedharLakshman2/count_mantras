@@ -10,8 +10,7 @@ class FlipCoin extends StatefulWidget {
 
 class FlipCoinState extends State<FlipCoin> with TickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 1),
-    reverseDuration: const Duration(seconds: 2),
+    duration: const Duration(seconds: 3),
     vsync: this,
   )..repeat(reverse: true);
   late final Animation<double> _animation = CurvedAnimation(
@@ -86,12 +85,13 @@ class FlipCoinState extends State<FlipCoin> with TickerProviderStateMixin {
                                   Color.fromARGB(255, 166, 23, 174),
                               content: Text(
                                 flipResult == 'heads'
-                                    ? 'It' 's heads'
-                                    : 'It' 's tails',
+                                    ? 'It is heads'
+                                    : 'It is tails',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20,
                                 ),
+                                textAlign: TextAlign.center,
                               ),
                               duration: const Duration(seconds: 2),
                             ),
